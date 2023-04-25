@@ -1,23 +1,23 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import History from './pages/History';
 import Home from './pages/Home';
-import None from './pages/None';
-import No from './pages/No';
-import Home2 from './pages/Home2';
-import Home3 from './pages/Home3';
-import Home4 from './pages/Home4';
+import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
+import News from './pages/News';
+import MakeNews from './pages/MakeNews';
+import NewsList from './pages/NewsList';
 
 function App() {
   return (
     <div>
       <Routes>
-        {/* <Route path='/test' element={<Home />} /> */}
         <Route path='/' element={<Home />} />
-        <Route path='/2' element={<Home2 />} />
-        <Route path='/3' element={<Home3 />} />
-        <Route path='/4' element={<Home4 />} />
-        <Route path='/none' element={<None />} />
+        <Route path='/login' element={<LoginPage />} />
+        <Route path='/signup' element={<SignupPage />} />
+        <Route path='/login' element={<LoginPage />} />
+        <Route path='/news-list' element={<NewsList />} />
+        <Route path='/news/:id' element={<News />} />
+        <Route path='/make-news' element={<MakeNews />} />
       </Routes>
     </div>
   );

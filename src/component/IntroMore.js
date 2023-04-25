@@ -3,7 +3,7 @@ import React from 'react'
 const IntroMore = () => {
     return (
         <div>
-            <div className="more-div">
+            <div className="more-div" style={{ marginTop: "-359px"}}>
                 <a href="#"><div className="more-point" /><div className="more-text">지속가능발전이란?</div></a>
                 <a href="#"><div className="more-text-1">개념</div></a>
                 <a href="#"><div className="more-text-1">배경</div></a>
@@ -19,7 +19,7 @@ const IntroMore = () => {
                 <a href="#"><div className="more-text-1">인사말</div></a>
                 <a href="#"><div className="more-text-1">조직도</div></a>
 
-                <a href="#"><div className="more-point" /><div className="more-text">연결하기(Link)</div></a>
+                {/* <a href="#"><div className="more-point" /><div className="more-text">연결하기(Link)</div></a>
                 <a href="#"><div className="more-text-1">지속가능발전</div></a>
                 <a href="#"><div className="more-text-2">지속가능발전포털</div></a>
                 <a href="#"><div className="more-text-2">전국지속가능발전협의회</div></a>
@@ -32,7 +32,7 @@ const IntroMore = () => {
                 <a href="#"><div className="more-text-2">협력기업</div></a>
                 <a href="#"><div className="more-text-2">종교·교육기관</div></a>
                 <a href="#"><div className="more-text-2">마을공동체</div></a>
-                <a href="#"><div className="more-text-2">기타</div></a>
+                <a href="#"><div className="more-text-2">기타</div></a> */}
             </div>
         </div>
     )
