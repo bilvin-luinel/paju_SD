@@ -72,7 +72,7 @@ function Write() {
                 formData.append('images', image);
             });
 
-            const response = await fetch('http://localhost:8484/posts', {
+            const response = await fetch('http://182.209.228.24:8484/posts', {
                 method: 'POST',
                 body: formData,
             });

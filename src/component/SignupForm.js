@@ -22,7 +22,7 @@ const SignupForm = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await fetch('http://localhost:8484/signup', {
+            const response = await fetch('http://182.209.228.24:8484/signup', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)

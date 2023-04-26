@@ -12,17 +12,22 @@ const News = () => {
 
   useEffect(() => {
     const fetchPost = async () => {
-      const res = await axios.get(`http://localhost:8484/posts/${id}`);
+      const res = await axios.get(`http://182.209.228.24:8484/posts/${id}`);
       setPost(res.data);
-      console.log(res.data)
-      const img = new Image();
-      img.src = `${process.env.PUBLIC_URL}/uploads/${res.data.images}`;
-      img.onload = () => {
-        setPost(prevPost => ({ ...prevPost, images: img.src }));
-      };
+      console.log("??? = " + post.images)
     };
     fetchPost();
   }, [id]);
+
+  useEffect(() => {
+    const img = new Image();
+    img.src = `${process.env.PUBLIC_URL}/uploads/${post.images}`;
+    img.onload = () => {
+      setPost(prevPost => ({ ...prevPost, images: img.src }));
+    };
+  }, [post]);
+
+
 
   const navigate = useNavigate();
   const goToNewsList = () => {
@@ -39,6 +44,15 @@ const News = () => {
   const formattedDate = `${year}년 ${month}월 ${day}일 ${hour}시 ${minute}분`;
 
 
+  // const isThereImg = () => {
+  //   if (post.images == undefined) {
+  //     return;
+  //   } else {
+  //     return <img src={`http://182.209.228.24:8484/uploads/${post.images}`} />
+  //   }
+  // }
+
+
   return (
     <div className="wrap">
       <TopBar />
@@ -51,10 +65,9 @@ const News = () => {
         {post ? (
           <>
             <h2>{post.title}</h2>
-            <img src={post.images} onLoad={()=> console.log('Image loaded!')} />
+            {/* {isThereImg} */}
+            <img src={`http://182.209.228.24:8484/uploads/${post.images}`} />
             <p>{post.content}</p>
-            <p>{post.images}</p>
-            <img src={`http://localhost:8484/uploads/${post.images}`} />
           </>
         ) : (
           <p>Loading...</p>

@@ -24,7 +24,7 @@ app.listen(port, () => {
 
 
 //MongoDB 연결
-mongoose.connect('mongodb://localhost/paju-sd', { useNewUrlParser: true })
+mongoose.connect('mongodb://182.209.228.24/paju-sd', { useNewUrlParser: true })
     .then(() => console.log('MongoDB Connected'))
     .catch((err => console.log(err)));
 
@@ -35,7 +35,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: 'http://182.209.228.24:3000',
     credentials: true
 }));
 app.use(session({
@@ -49,7 +49,7 @@ app.use(session({
     }
 }))
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.header('Access-Control-Allow-Origin', 'http://182.209.228.24:3000');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     res.header('Access-Control-Allow-Credentials', 'true');
@@ -62,9 +62,11 @@ const storage = multer.diskStorage({
         cb(null, './uploads/');
     },
     filename: function (req, file, cb) {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
         const ext = path.extname(file.originalname);
-        const filename = path.basename(file.originalname, ext);
-        cb(null, encodeURIComponent(filename) + '-' + Date.now() + ext);
+        // const filename = uniqueSuffix + '.' + ext;
+        const filename = uniqueSuffix + ext;
+        cb(null, filename);
     },
 });
 const upload = multer({
@@ -73,6 +75,16 @@ const upload = multer({
         fileSize: 1024 * 1024 * 10, // 10MB
     },
 });
+app.use('/uploads', express.static('uploads'));
+
+//각종 함수
+const getNotice = async () => {
+    const posts = await Post.find({ is_notice: true }).sort({ date: -1 }).limit(6)
+    return posts
+}
+
+
+
 
 
 
@@ -99,6 +111,12 @@ app.get('/posts/:id', async (req, res) => {
     const post = await Post.findById(id);
     res.json(post);
 });
+
+app.get('/is-notice', async (req, res) => {
+    const noticePosts = await getNotice()
+    res.json(noticePosts);
+    console.log(noticePosts);
+})
 
 app.post('/signup', (req, res) => {
     User.findOne({ email: req.body.email })
@@ -190,7 +208,7 @@ app.post('/logout', (req, res) => {
 })
 app.post('/posts', upload.single('images'), (req, res) => {
 
-    console.log(req.file);
+    // console.log(req.file);
 
     const post = new Post({
         is_notice: req.body.is_notice,
@@ -198,7 +216,7 @@ app.post('/posts', upload.single('images'), (req, res) => {
         font: req.body.font,
         size: req.body.size,
         content: req.body.content,
-        images: req.file.filename,
+        images: req.file ? req.file.filename : '',
     })
 
     post.save()

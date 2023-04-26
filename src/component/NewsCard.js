@@ -8,11 +8,13 @@ const NewsCard = (props) => {
 
   return (
     <div className='news-card'>
-        <img className='news-card-img' src={props.imgSrc} />
+        <img className='news-card-img' src={props.imgSrc} onError={(e) => {
+          e.target.onerror = null; // to avoid infinite fallback loop
+          e.target.src = `${process.env.PUBLIC_URL}/emblem.png`; // fallback image
+        }}/>
         <div className='news-card-text'>
             <h2 className='news-card-headline'>{props.headline}</h2>
             <h2 className='news-card-content'>{props.content1}</h2>
-            <h2 className='news-card-content2'>{props.content2}</h2>
         </div>
     </div>
   )
