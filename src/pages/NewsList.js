@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import TopBar from '../component/TopBar'
-import UnderBar from '../component/UnderBar'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -23,7 +21,6 @@ const NewsList = () => {
 
   return (
     <div className="wrap">
-      <TopBar />
       <div className="news-list-wrap">
         <h1>뉴스<button onClick={goToMakeNews}>글쓰기</button></h1>
         {posts.map((post) => {
@@ -37,7 +34,6 @@ const NewsList = () => {
         })}
       </div>
 
-      <UnderBar />
     </div>
   )
 }

@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import TopBar from '../component/TopBar'
-import UnderBar from '../component/UnderBar'
 import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -55,7 +53,6 @@ const News = () => {
 
   return (
     <div className="wrap">
-      <TopBar />
       <h1 className='view-news-head'>뉴스</h1>
       <div className='view-news-info'>
         <p>{formattedDate}</p>
@@ -74,7 +71,6 @@ const News = () => {
         )}
       </div>
 
-      <UnderBar />
     </div>
   )
 }

@@ -17,6 +17,8 @@
     font-family: "noto-regular";
 }
 
+
+
 a:link {
     color: black;
 }
@@ -524,7 +526,16 @@ a:visited {
 .main-map {
     margin-right: 22.5px;
 }
+.mobile {
+    display: none;
+}
 
 @media (max-width: 768px) {
-    
+    .wrap {
+        display: none;
+    }
+    .mobile {
+        display: block;
+        width: 100%;
+    }
 }

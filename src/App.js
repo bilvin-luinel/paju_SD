@@ -6,10 +6,13 @@ import SignupPage from './pages/SignupPage';
 import News from './pages/News';
 import MakeNews from './pages/MakeNews';
 import NewsList from './pages/NewsList';
+import TopBar from './component/TopBar';
+import UnderBar from './component/UnderBar';
 
 function App() {
   return (
     <div>
+      <TopBar />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<LoginPage />} />
@@ -19,6 +22,7 @@ function App() {
         <Route path='/news/:id' element={<News />} />
         <Route path='/make-news' element={<MakeNews />} />
       </Routes>
+      <UnderBar />
     </div>
   );
 }
