@@ -529,8 +529,17 @@ a:visited {
 .mobile {
     display: none;
 }
+.map {
+    width: 500px;
+    height: 500px;
+    margin: 50px auto;
+}
 
-@media (max-width: 768px) {
+
+
+
+
+/* @media (max-width: 768px) {
     .wrap {
         display: none;
     }
@@ -538,4 +547,4 @@ a:visited {
         display: block;
         width: 100%;
     }
-}
+} */

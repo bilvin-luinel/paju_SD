@@ -14,7 +14,7 @@ const MainSlide = () => {
 
     useEffect(() => {
         const fetchNoticeList = async () => {
-            const res = await axios.get('http://182.209.228.24:8484/is-notice');
+            const res = await axios.get('http://localhost:8484/is-notice');
             setNoticeList(res.data);
         };
         fetchNoticeList();
@@ -37,7 +37,7 @@ const MainSlide = () => {
             {noticeList.map((e) => (
                 <SwiperSlide className='swiper-slide' key={e._id}>
                     <div onClick={()=>navigate(`/news/${e._id}`)}>
-                        <NewsCard imgSrc={`http://182.209.228.24:8484/uploads/${e.images}`} headline={e.title} content1={e.content} />
+                        <NewsCard imgSrc={`http://localhost:8484/uploads/${e.images}`} headline={e.title} content1={e.content} />
                     </div>
                 </SwiperSlide>
             ))}

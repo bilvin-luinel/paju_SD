@@ -17,7 +17,7 @@ const TopBar = () => {
         navigate('/');
     }
     const handleLogout = async () => {
-        const response = await fetch('http://182.209.228.24:8484/logout', {
+        const response = await fetch('http://localhost:8484/logout', {
             method: 'POST',
             credentials: 'same-origin'
         });

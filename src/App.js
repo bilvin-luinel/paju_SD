@@ -8,6 +8,7 @@ import MakeNews from './pages/MakeNews';
 import NewsList from './pages/NewsList';
 import TopBar from './component/TopBar';
 import UnderBar from './component/UnderBar';
+import Map from './pages/Map';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path='/news-list' element={<NewsList />} />
         <Route path='/news/:id' element={<News />} />
         <Route path='/make-news' element={<MakeNews />} />
+        <Route path='map' element={<Map />} />
       </Routes>
       <UnderBar />
     </div>

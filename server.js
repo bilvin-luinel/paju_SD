@@ -24,9 +24,64 @@ app.listen(port, () => {
 
 
 //MongoDB 연결
-mongoose.connect('mongodb://182.209.228.24/paju-sd', { useNewUrlParser: true })
+mongoose.connect('mongodb://localhost/paju-sd', { useNewUrlParser: true })
     .then(() => console.log('MongoDB Connected'))
     .catch((err => console.log(err)));
+
+//기본 뉴스 게시판 데이터 (작업 일정 부분 진행 후 or 불필요해지면 코드 삭제할 것)
+// const posts = [
+//     {
+//         is_notice: true,
+//         title: '지구의날 자원순환축제',
+//         font: 'Arial',
+//         size: 'small',
+//         content: '오지구게임',
+//         images: ['1682486630048-422169868.jpg'],
+//     },
+//     {
+//         is_notice: true,
+//         title: '파주 운정호수공원 음악분수',
+//         font: 'undefined',
+//         size: 'undefined',
+//         content: '5월부터 본격가동\r\n매일 주,야간 각 1회 운영',
+//         images: ['1682475375464-765393074.png'],
+//     },
+//     {
+//         is_notice: true,
+//         title: '파주시 어린이책잔치 개최',
+//         font: 'undefined',
+//         size: 'undefined',
+//         content: "'다양성과 다문화'를 주제로\r\n5월 5~7일 파주에서 개최된다",
+//         images: ['1682475352668-867097223.png'],
+//     },
+//     {
+//         is_notice: true,
+//         title: '파주시 공공데이터 우수기관 선정',
+//         font: 'undefined',
+//         size: 'undefined',
+//         content: '파주시 공공데이터 제공 운영실태\r\n평가에서 최고등급의 우수기관으로 선정',
+//         images: ['1682475282031-29778111.png'],
+//     },
+//     {
+//         is_notice: true,
+//         title: '지구의 날 기념 다양한 행사진행',
+//         font: 'undefined',
+//         size: 'undefined',
+//         content: '파주시는 지구의 날을 맞아\r\n탄소중립 생활 실천 챌린지를 진행한다',
+//         images: ['1682475228248-322246147.png'],
+//     },
+//     {
+//         is_notice: true,
+//         title: '파주시, 동물학대와의 전쟁',
+//         font: 'undefined',
+//         size: 'undefined',
+//         content: '경기도 특별사법경찰단이 육견\r\n농장 현장 적발하고 수사에 나섰다',
+//         images: ['1682474931023-463574705.png'],
+//     }
+// ];
+// Post.create(posts)
+//   .then(() => console.log('saved'))
+//   .catch((error) => console.error(error));
 
 
 //미들웨어 설정
@@ -35,7 +90,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-    origin: 'http://182.209.228.24:3000',
+    origin: 'http://localhost:7000',
     credentials: true
 }));
 app.use(session({
@@ -49,7 +104,7 @@ app.use(session({
     }
 }))
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'http://182.209.228.24:3000');
+    res.header('Access-Control-Allow-Origin', 'http://localhost:7000');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     res.header('Access-Control-Allow-Credentials', 'true');

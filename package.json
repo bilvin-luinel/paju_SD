@@ -29,10 +29,10 @@
     "slick-carousel": "^1.8.1",
     "swiper": "^9.2.4",
     "web-vitals": "^2.1.4",
-    "proxy": "http://182.209.228.24:8484"
+    "proxy": "http://localhost:8484"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "set PORT=7000 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
