@@ -27,6 +27,9 @@ const Home = () => {
                 </div>
             </div>
         </div>
+        // <div className='t1'>
+        //     <img className='test' src={`${process.env.PUBLIC_URL}/test.jpg`} />
+        // </div>
 
     )
 }

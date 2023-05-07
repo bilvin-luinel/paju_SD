@@ -22,7 +22,7 @@ function App() {
         <Route path='/news-list' element={<NewsList />} />
         <Route path='/news/:id' element={<News />} />
         <Route path='/make-news' element={<MakeNews />} />
-        <Route path='map' element={<Map />} />
+        <Route path='/map' element={<Map />} />
       </Routes>
       <UnderBar />
     </div>

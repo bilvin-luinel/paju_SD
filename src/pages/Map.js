@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import Warning from '../component/Warning';
 
 const { kakao } = window;
 

@@ -7,7 +7,7 @@ import axios from 'axios';
 const LoginForm = () => {
 
     axios.defaults.withCredentials = true;
-    
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
@@ -37,27 +37,30 @@ const LoginForm = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label>
-                Email:
-                <input
-                    type="text"
-                    name="email"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                />
-            </label>
-            <label>
-                Password:
-                <input
-                    type="password"
-                    name="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-            </label>
-            <button type="submit">로그인</button>
-        </form>
+        <div className='login-form'>
+            <form onSubmit={handleSubmit}>
+                <label>
+                    Email:
+                    <input
+                        type="text"
+                        name="email"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
+                </label>
+                <label>
+                    Password:
+                    <input
+                        type="password"
+                        name="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </label>
+                <button type="submit">로그인</button>
+            </form>
+        </div>
+
     );
 };
 
