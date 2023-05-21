@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-    username: {
+    userName: {
         type: String,
         required: true,
     },
@@ -14,7 +14,56 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: true,
-    }
+    },
+    nickName: {
+
+    },
+    birth: {
+
+    },
+    gender: {
+
+    },
+    phone: {
+
+    },
+    grade: {
+
+    },
+    signupTime: {
+
+    },
+    withdrawTime: {
+
+    },
+    location1: {
+
+    },
+    location2: {
+
+    },
+    location3: {
+
+    },
+    applicationSubcmt: {
+
+    },
+    subcmt: {
+
+    },
+    status: {
+
+    },
+    banCount: {
+
+    },
+    banStart: {
+
+    },
+    banEnd: {
+
+    },
+    
 });
 
 const User = mongoose.model('User', userSchema);

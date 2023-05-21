@@ -8,10 +8,16 @@ const Map = () => {
     useEffect(() => {
         const container = document.getElementById('map');
         const options = {
-            center: new kakao.maps.LatLng(33.450701, 126.570667),
-            level: 3
+            center: new kakao.maps.LatLng(37.732861, 126.751281),
+            level: 1
         };
         const map = new kakao.maps.Map(container, options);
+
+        const mapTypeControl = new kakao.maps.MapTypeControl();
+        map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+
+        const zoomControl = new kakao.maps.ZoomControl();
+        map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
     }, [])
 
 
