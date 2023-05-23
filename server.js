@@ -24,7 +24,7 @@ app.listen(port, () => {
 
 
 //MongoDB 연결
-mongoose.connect('mongodb://localhost/paju-sd', { useNewUrlParser: true })
+mongoose.connect('mongodb://localhost/paju-sd', { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('MongoDB Connected'))
     .catch((err => console.log(err)));
 

@@ -63,7 +63,30 @@ const userSchema = new Schema({
     banEnd: {
 
     },
-    
+    forcedOutDate: {
+
+    },
+    level: {
+
+    },
+    point: {
+
+    },
+    requiredPoint: {
+
+    },
+    accessCount: {
+
+    },
+    postCount: {
+
+    },
+    commentCount: {
+
+    },
+    likes: {
+        
+    }
 });
 
 const User = mongoose.model('User', userSchema);
