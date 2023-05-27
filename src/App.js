@@ -9,11 +9,13 @@ import NewsList from './pages/NewsList';
 import TopBar from './component/TopBar';
 import UnderBar from './component/UnderBar';
 import Map from './pages/Map';
+import T_session from './component/T_session';
 
 function App() {
   return (
     <div>
       <TopBar />
+      {/* <T_session /> */}
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<LoginPage />} />

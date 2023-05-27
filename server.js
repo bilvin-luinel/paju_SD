@@ -191,7 +191,8 @@ app.post('/signup', (req, res) => {
                         });
                     } else {
                         const user = new User({
-                            username: req.body.username,
+                            userName: req.body.userName,
+                            nickName: req.body.nickName,
                             email: req.body.email,
                             password: hash
                         });
@@ -245,10 +246,12 @@ app.post('/login', (req, res) => {
                         }
                     );
                     req.session.user = {
-                        username: user.username,
+                        userName: user.userName,
+                        nickName: user.nickName,
                         email: user.email,
                         userId: user._id,
                     };
+                    console.log("세션 저장 정보는??:", req.session.user)
                     return res.status(200).json({
                         message: 'Auth successful',
                         token: token
@@ -256,6 +259,15 @@ app.post('/login', (req, res) => {
                 }
             })
         })
+})
+app.get('/session', (req, res) => {
+    const sessionInfo = {
+        userName: req.session.username,
+        email: req.session.email,
+        userId: req.session.userId
+    }
+    res.json(sessionInfo);
+    // console.log(sessionInfo);
 })
 app.post('/logout', (req, res) => {
     req.session.destroy();

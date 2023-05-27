@@ -8,14 +8,14 @@ const LoginForm = () => {
 
     axios.defaults.withCredentials = true;
 
-    const [username, setUsername] = useState('');
+    const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
 
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        //console.log(`Username: ${username}, Password: ${password}`);
+        //console.log(`UserName: ${userName}, Password: ${password}`);
         const email = e.target.email.value;
         const password = e.target.password.value;
 
@@ -44,8 +44,8 @@ const LoginForm = () => {
                     <input
                         type="text"
                         name="email"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        value={userName}
+                        onChange={(e) => setUserName(e.target.value)}
                     />
                 </label>
                 <label>
