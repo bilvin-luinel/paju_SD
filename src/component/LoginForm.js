@@ -20,7 +20,7 @@ const LoginForm = () => {
         const password = e.target.password.value;
 
         try {
-            const response = await axios.post('http://localhost:8484/login', {
+            const response = await axios.post('http://182.209.228.24:8484/login', {
                 email,
                 password,
             }, { withCredentials: true });

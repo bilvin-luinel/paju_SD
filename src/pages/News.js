@@ -10,7 +10,7 @@ const News = () => {
 
   useEffect(() => {
     const fetchPost = async () => {
-      const res = await axios.get(`http://localhost:8484/posts/${id}`);
+      const res = await axios.get(`http://182.209.228.24:8484/posts/${id}`);
       setPost(res.data);
       console.log("??? = " + post.images)
     };
@@ -46,7 +46,7 @@ const News = () => {
   //   if (post.images == undefined) {
   //     return;
   //   } else {
-  //     return <img src={`http://localhost:8484/uploads/${post.images}`} />
+  //     return <img src={`http://182.209.228.24:8484/uploads/${post.images}`} />
   //   }
   // }
 
@@ -63,7 +63,7 @@ const News = () => {
           <>
             <h2>{post.title}</h2>
             {/* {isThereImg} */}
-            <img src={`http://localhost:8484/uploads/${post.images}`} />
+            <img src={`http://182.209.228.24:8484/uploads/${post.images}`} />
             <p>{post.content}</p>
           </>
         ) : (

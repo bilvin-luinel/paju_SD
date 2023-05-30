@@ -9,7 +9,30 @@ import store from '../store';
 import { useDispatch, useSelector } from 'react-redux';
 
 const TopBar = () => {
-    const isLoggedIn = useSelector(state => state.isLoggedIn);
+    // const isLoggedIn = useSelector(state => state.isLoggedIn);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    useEffect(() => {
+        const authentication = async () => {
+            const response = await fetch('http://182.209.228.24:8484/user', {
+                method: 'GET',
+                credentials: 'include',
+                headers: {
+                    'Cache-Control': 'no-cache, no-store, must-revalidate'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('로그인 여부 응답', data.user.userName);
+                if (data.user.userName) {
+                    setIsLoggedIn(true);
+                } else {
+                    setIsLoggedIn(false);
+                }
+            })
+        }
+        authentication();
+    }, [])
 
     const navigate = useNavigate();
 
@@ -17,13 +40,14 @@ const TopBar = () => {
         navigate('/');
     }
     const handleLogout = async () => {
-        const response = await fetch('http://localhost:8484/logout', {
-            method: 'POST',
+        const response = await fetch('http://182.209.228.24:8484/logout', {
+            method: 'GET',
             credentials: 'same-origin'
         });
 
         if (response.ok) {
             store.dispatch({ type: 'LOGOUT' });
+            setIsLoggedIn(false);
             navigate('/');
         } else {
             alert("알 수 없는 오류로 로그아웃에 실패했습니다.");

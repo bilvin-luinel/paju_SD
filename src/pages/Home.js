@@ -8,7 +8,9 @@ import MainSlide from '../component/MainSlide'
 const Home = () => {
 
     const navigate = useNavigate();
-
+    const goToMap = () => {
+        navigate('/map');
+    }
 
     return (
         <div className='super-wrap'>
@@ -21,7 +23,7 @@ const Home = () => {
                     </div>
                     <div className='main-line2'>
                         <img className='main-monitoring' src={`${process.env.PUBLIC_URL}/main-monitoring.png`} />
-                        <img className='main-map' src={`${process.env.PUBLIC_URL}/main-map.png`} />
+                        <img className='main-map' onClick={goToMap} src={`${process.env.PUBLIC_URL}/main-map.png`} />
                         <img className='main-calendar' src={`${process.env.PUBLIC_URL}/main-calendar.png`} />
                     </div>
                 </div>

@@ -14,6 +14,7 @@ const app = express();
 mongoose.Promise = global.Promise;
 const User = require('./models/User');
 const Post = require('./models/Post');
+const Marker = require('./models/Marker');
 
 
 //서버 실행
@@ -24,7 +25,7 @@ app.listen(port, () => {
 
 
 //MongoDB 연결
-mongoose.connect('mongodb://localhost/paju-sd', { useNewUrlParser: true })
+mongoose.connect('mongodb://182.209.228.24/paju-sd', { useNewUrlParser: true })
     .then(() => console.log('MongoDB Connected'))
     .catch((err => console.log(err)));
 
@@ -90,7 +91,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-    origin: 'http://localhost:7000',
+    origin: 'http://182.209.228.24:3000',
     credentials: true
 }));
 app.use(session({
@@ -104,7 +105,7 @@ app.use(session({
     }
 }))
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:7000');
+    res.header('Access-Control-Allow-Origin', 'http://182.209.228.24:3000');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     res.header('Access-Control-Allow-Credentials', 'true');
@@ -234,17 +235,18 @@ app.post('/login', (req, res) => {
                         message: 'Auth failed'
                     });
                 }
-                if (result) {
-                    const token = jwt.sign(
-                        {
-                            email: user.email,
-                            userId: user._id
-                        },
-                        'secret',
-                        {
-                            expiresIn: '1h'
-                        }
-                    );
+                if (result) 
+                {
+                    // const token = jwt.sign(
+                    //     {
+                    //         email: user.email,
+                    //         userId: user._id
+                    //     },
+                    //     'secret',
+                    //     {
+                    //         expiresIn: '1h'
+                    //     }
+                    // );
                     req.session.user = {
                         userName: user.userName,
                         nickName: user.nickName,
@@ -254,28 +256,25 @@ app.post('/login', (req, res) => {
                     console.log("세션 저장 정보는??:", req.session.user)
                     return res.status(200).json({
                         message: 'Auth successful',
-                        token: token
+                        // token: token
                     })
                 }
             })
         })
 })
-app.get('/session', (req, res) => {
-    const sessionInfo = {
-        userName: req.session.username,
-        email: req.session.email,
-        userId: req.session.userId
-    }
-    res.json(sessionInfo);
-    // console.log(sessionInfo);
-})
-app.post('/logout', (req, res) => {
-    req.session.destroy();
+app.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.log('세션 삭제 오류', err);
+        } else {
+            console.log('세션 삭제 완료');
+        }
+    });
     res.status(200).json({ message: 'User logged out' });
 })
 app.post('/posts', upload.single('images'), (req, res) => {
 
-    // console.log(req.file);
+    // console.log(req.body);
 
     const post = new Post({
         is_notice: req.body.is_notice,
@@ -304,3 +303,46 @@ app.post('/posts', upload.single('images'), (req, res) => {
         });
 
 });
+
+app.post('/addmarker', upload.single('image'), (req, res) => {
+    // console.log(req.body);
+    const marker = new Marker({
+        markerName: req.body.name,
+        xCoordinate: req.body.xCoordinate,
+        yCoordinate: req.body.yCoordinate,
+        loca: req.body.loca,
+        content: req.body.content,
+        images: req.file ? req.file.filename : '',
+        category1: req.body.category1,
+        category2: req.body.category2,
+        category3: req.body.category3,
+        poster: req.session.nickName
+    })
+    marker.save()
+        .then((savedMarker) => {
+            res.status(200).json({
+                success: true,
+                message: '마커 정보가 성공적으로 저장되었습니다.',
+                markerInfo: savedMarker,
+            });
+            console.log('마커 정보 저장 성공!');
+        })
+        .catch((err) => {
+            res.status(500).json({
+                success: false,
+                message: '마커 정보 저장에 실패했습니다.',
+                error: err,
+            })
+            console.log('마커 정보 저장 실패...', err);
+        })
+})
+
+app.get('/loadmarker', async (req, res) => {
+    try {
+        const markers = await Marker.find();
+        res.send(markers);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
+    }
+})

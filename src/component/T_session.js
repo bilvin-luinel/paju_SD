@@ -8,7 +8,7 @@ const T_session = () => {
 
     useEffect(() => {
         const getData = async () => {
-            const response = await fetch('http://localhost:8484/session', {
+            const response = await fetch('http://182.209.228.24:8484/session', {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
             })
