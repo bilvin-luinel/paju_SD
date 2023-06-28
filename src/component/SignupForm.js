@@ -41,7 +41,7 @@ const SignupForm = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} style={{display:"flex", flexDirection:'column', alignItems:"center", marginTop:"30px"}}>
             <div>
                 <label htmlFor="userName">Name:</label>
                 <input type="text" id="userName" name="userName" value={formData.userName} onChange={handleChange} />

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const session = require('express-session');
+// const session = require('express-session');
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
@@ -15,6 +15,7 @@ mongoose.Promise = global.Promise;
 const User = require('./models/User');
 const Post = require('./models/Post');
 const Marker = require('./models/Marker');
+const Admin = require('./models/Admin');
 
 
 //서버 실행
@@ -25,64 +26,11 @@ app.listen(port, () => {
 
 
 //MongoDB 연결
-mongoose.connect('mongodb://182.209.228.24/paju-sd', { useNewUrlParser: true })
+mongoose.connect('mongodb+srv://bilvin0709:nalkeok02@cluster0.y2yd1ip.mongodb.net/paju-sd', { useNewUrlParser: true })
     .then(() => console.log('MongoDB Connected'))
     .catch((err => console.log(err)));
 
-//기본 뉴스 게시판 데이터 (작업 일정 부분 진행 후 or 불필요해지면 코드 삭제할 것)
-// const posts = [
-//     {
-//         is_notice: true,
-//         title: '지구의날 자원순환축제',
-//         font: 'Arial',
-//         size: 'small',
-//         content: '오지구게임',
-//         images: ['1682486630048-422169868.jpg'],
-//     },
-//     {
-//         is_notice: true,
-//         title: '파주 운정호수공원 음악분수',
-//         font: 'undefined',
-//         size: 'undefined',
-//         content: '5월부터 본격가동\r\n매일 주,야간 각 1회 운영',
-//         images: ['1682475375464-765393074.png'],
-//     },
-//     {
-//         is_notice: true,
-//         title: '파주시 어린이책잔치 개최',
-//         font: 'undefined',
-//         size: 'undefined',
-//         content: "'다양성과 다문화'를 주제로\r\n5월 5~7일 파주에서 개최된다",
-//         images: ['1682475352668-867097223.png'],
-//     },
-//     {
-//         is_notice: true,
-//         title: '파주시 공공데이터 우수기관 선정',
-//         font: 'undefined',
-//         size: 'undefined',
-//         content: '파주시 공공데이터 제공 운영실태\r\n평가에서 최고등급의 우수기관으로 선정',
-//         images: ['1682475282031-29778111.png'],
-//     },
-//     {
-//         is_notice: true,
-//         title: '지구의 날 기념 다양한 행사진행',
-//         font: 'undefined',
-//         size: 'undefined',
-//         content: '파주시는 지구의 날을 맞아\r\n탄소중립 생활 실천 챌린지를 진행한다',
-//         images: ['1682475228248-322246147.png'],
-//     },
-//     {
-//         is_notice: true,
-//         title: '파주시, 동물학대와의 전쟁',
-//         font: 'undefined',
-//         size: 'undefined',
-//         content: '경기도 특별사법경찰단이 육견\r\n농장 현장 적발하고 수사에 나섰다',
-//         images: ['1682474931023-463574705.png'],
-//     }
-// ];
-// Post.create(posts)
-//   .then(() => console.log('saved'))
-//   .catch((error) => console.error(error));
+
 
 
 //미들웨어 설정
@@ -91,21 +39,21 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-    origin: 'http://182.209.228.24:3000',
+    origin: 'http://182.209.228.24:7000',
     credentials: true
 }));
-app.use(session({
-    secret: 'key',
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-        httpOnly: true,
-        secure: false, // https 인 경우 true로 변경
-        maxAge: 60 * 60 * 1000 // 쿠키 유효 시간 1시간
-    }
-}))
+// app.use(session({
+//     secret: 'key',
+//     resave: false,
+//     saveUninitialized: false,
+//     // cookie: {
+//     //     httpOnly: true,
+//     //     secure: false, // https 인 경우 true로 변경
+//     //     maxAge: 60 * 60 * 1000 // 쿠키 유효 시간 1시간
+//     // }
+// }))
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'http://182.209.228.24:3000');
+    res.header('Access-Control-Allow-Origin', 'http://182.209.228.24:7000');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     res.header('Access-Control-Allow-Credentials', 'true');
@@ -128,10 +76,12 @@ const storage = multer.diskStorage({
 const upload = multer({
     storage: storage,
     limits: {
-        fileSize: 1024 * 1024 * 10, // 10MB
+        fileSize: 1024 * 1024 * 30, // 30MB
     },
 });
 app.use('/uploads', express.static('uploads'));
+
+
 
 //각종 함수
 const getNotice = async () => {
@@ -171,7 +121,7 @@ app.get('/posts/:id', async (req, res) => {
 app.get('/is-notice', async (req, res) => {
     const noticePosts = await getNotice()
     res.json(noticePosts);
-    console.log(noticePosts);
+    console.log('noticePosts? : ', noticePosts);
 })
 
 app.post('/signup', (req, res) => {
@@ -235,8 +185,7 @@ app.post('/login', (req, res) => {
                         message: 'Auth failed'
                     });
                 }
-                if (result) 
-                {
+                if (result) {
                     // const token = jwt.sign(
                     //     {
                     //         email: user.email,
@@ -263,14 +212,17 @@ app.post('/login', (req, res) => {
         })
 })
 app.get('/logout', (req, res) => {
-    req.session.destroy((err) => {
-        if (err) {
-            console.log('세션 삭제 오류', err);
-        } else {
-            console.log('세션 삭제 완료');
-        }
-    });
-    res.status(200).json({ message: 'User logged out' });
+    // console.log('세션 삭제 전 정보는?', req.session)
+    // req.session.destroy((err) => {
+    //     if (err) {
+    //         console.log('세션 삭제 오류', err);
+    //     } else {
+    //         console.log('세션 삭제 완료');
+    //         console.log('세션 삭제 완류 후 정보는?', req.session);
+    //         res.clearCookie('connect.sid'); // 세션 쿠키 삭제
+    //         res.status(200).json({ message: 'User logged out' });
+    //     }
+    // });
 })
 app.post('/posts', upload.single('images'), (req, res) => {
 
@@ -304,7 +256,7 @@ app.post('/posts', upload.single('images'), (req, res) => {
 
 });
 
-app.post('/addmarker', upload.single('image'), (req, res) => {
+app.post('/addmarker', upload.array('image', 4), (req, res) => {
     // console.log(req.body);
     const marker = new Marker({
         markerName: req.body.name,
@@ -312,11 +264,13 @@ app.post('/addmarker', upload.single('image'), (req, res) => {
         yCoordinate: req.body.yCoordinate,
         loca: req.body.loca,
         content: req.body.content,
-        images: req.file ? req.file.filename : '',
+        // images: req.file ? req.file.filename : '',
+        //한 장만 올릴 때
+        images: req.files.map((file) => file.filename),
         category1: req.body.category1,
         category2: req.body.category2,
         category3: req.body.category3,
-        poster: req.session.nickName
+        poster: req.body.poster
     })
     marker.save()
         .then((savedMarker) => {

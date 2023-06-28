@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import TopBar from '../component/TopBar';
+import UnderBar from '../component/UnderBar';
 
 const NewsList = () => {
 
@@ -21,19 +23,20 @@ const NewsList = () => {
 
   return (
     <div className="wrap">
+      <TopBar />
       <div className="news-list-wrap">
         <h1>뉴스<button onClick={goToMakeNews}>글쓰기</button></h1>
         {posts.map((post) => {
           return (
             <div className="news-list-div" key={post._id}>
-              {post.is_notice && <span style={{marginRight:"10px"}}>[공지]</span>}
+              {post.is_notice && <span style={{ marginRight: "10px" }}>[공지]</span>}
               <a href={`/news/${post._id}`}>{post.title}</a>
               <p>{new Date(post.date).toLocaleDateString()}</p>
             </div>
           );
         })}
       </div>
-
+      <UnderBar />
     </div>
   )
 }

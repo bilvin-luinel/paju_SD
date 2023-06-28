@@ -15,6 +15,10 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
+    scdPassword: {
+        type: String,
+        required: false,
+    },
     nickName: {
         type: String,
         required: false,

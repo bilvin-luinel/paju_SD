@@ -1,9 +1,13 @@
 import React from 'react'
 import LoginForm from '../component/LoginForm'
+import TopBar from '../component/TopBar'
+import UnderBar from '../component/UnderBar'
 
 const LoginPage = () => {
+
   return (
     <div className="wrap">
+      <TopBar />
       <div className='arrow-wrap'>
         <div className='arrow1'>
           <div className='arrow-1' style={{ backgroundColor: "#545761", color: "white" }}>
@@ -53,6 +57,7 @@ const LoginPage = () => {
       </div>
 
       <LoginForm />
+      <UnderBar />
     </div>
   )
 }

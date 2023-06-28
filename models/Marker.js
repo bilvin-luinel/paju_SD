@@ -36,11 +36,11 @@ const markerSchema = new Schema({
     },
     category2: {
         type: String,
-        required: true,
+        required: false,
     },
     category3: {
         type: String,
-        required: true,
+        required: false,
     },
     poster: {
         type: String,
@@ -49,6 +49,10 @@ const markerSchema = new Schema({
     likes: {
         type: String,
         required: false,
+    },
+    hates: {
+        type: String,
+        required: false
     }
 
 });
