@@ -84,7 +84,30 @@ const userSchema = new Schema({
         type: String,
         required: false,
     },
-    
+    forcedOutDate: {
+
+    },
+    level: {
+
+    },
+    point: {
+
+    },
+    requiredPoint: {
+
+    },
+    accessCount: {
+
+    },
+    postCount: {
+
+    },
+    commentCount: {
+
+    },
+    likes: {
+        
+    }
 });
 
 const User = mongoose.model('User', userSchema);
