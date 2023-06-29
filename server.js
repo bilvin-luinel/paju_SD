@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-// const session = require('express-session');
+const session = require('express-session');
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
@@ -42,16 +42,16 @@ app.use(cors({
     origin: 'http://182.209.228.24:7000',
     credentials: true
 }));
-// app.use(session({
-//     secret: 'key',
-//     resave: false,
-//     saveUninitialized: false,
-//     // cookie: {
-//     //     httpOnly: true,
-//     //     secure: false, // https 인 경우 true로 변경
-//     //     maxAge: 60 * 60 * 1000 // 쿠키 유효 시간 1시간
-//     // }
-// }))
+app.use(session({
+    secret: 'key',
+    resave: false,
+    saveUninitialized: false,
+    // cookie: {
+    //     httpOnly: true,
+    //     secure: false, // https 인 경우 true로 변경
+    //     maxAge: 60 * 60 * 1000 // 쿠키 유효 시간 1시간
+    // }
+}))
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', 'http://182.209.228.24:7000');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
@@ -212,17 +212,17 @@ app.post('/login', (req, res) => {
         })
 })
 app.get('/logout', (req, res) => {
-    // console.log('세션 삭제 전 정보는?', req.session)
-    // req.session.destroy((err) => {
-    //     if (err) {
-    //         console.log('세션 삭제 오류', err);
-    //     } else {
-    //         console.log('세션 삭제 완료');
-    //         console.log('세션 삭제 완류 후 정보는?', req.session);
-    //         res.clearCookie('connect.sid'); // 세션 쿠키 삭제
-    //         res.status(200).json({ message: 'User logged out' });
-    //     }
-    // });
+    console.log('세션 삭제 전 정보는?', req.session)
+    req.session.destroy((err) => {
+        if (err) {
+            console.log('세션 삭제 오류', err);
+        } else {
+            console.log('세션 삭제 완료');
+            console.log('세션 삭제 완류 후 정보는?', req.session);
+            res.clearCookie('connect.sid'); // 세션 쿠키 삭제
+            res.status(200).json({ message: 'User logged out' });
+        }
+    });
 })
 app.post('/posts', upload.single('images'), (req, res) => {
 

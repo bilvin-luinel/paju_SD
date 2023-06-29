@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import Warning from '../component/Warning';
 import Select from 'react-select';
 import { Redirect, useNavigate } from 'react-router-dom';
+import DaumPostcode from 'react-daum-postcode';
 
 const { kakao } = window;
 const infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
@@ -102,6 +103,9 @@ const Map = () => {
     const [postMarkers, setPostMarkers] = useState([]);
     const [deletedMarker, setDeletedMarker] = useState(false);
     const [deletedAllMarker, setDeletedAllMarker] = useState(false);
+
+    const [inputDetailAddress, setInputDetailAddress] = useState(false);
+    const [daumPopup, setDaumPopup] = useState(false);
 
     const navigate = useNavigate();
 
@@ -300,9 +304,6 @@ const Map = () => {
 
     useEffect(() => {
         const handleEffect = async () => {
-            if (category === category) {
-            }
-            console.log('현 카테고리는 ? ', category)
             await createMarkers();
         };
 
@@ -875,9 +876,40 @@ const Map = () => {
         }
     }
 
+    const popupDetailAddress = () => {
+        setAddModal(false);
+        setInputDetailAddress(true);
+    }
+
+    const closeDetailAddress = () => {
+        setAddModal(true);
+        setInputDetailAddress(false);
+    }
+
+    // const handleAddressSearch = () => {
+    //     new DaumPostcode({
+    //         oncomplete: (data) => {
+    //             const fullAddress = data.address;
+
+    //             setDetailAddress(fullAddress);
+    //             setLoca(fullAddress);
+    //         },
+    //     }).open();
+    // }
 
 
+    const handleDaumComplete = (data) => {
+        const fullAddress = data.address;
 
+        setDetailAddress(fullAddress);
+        setLoca(fullAddress);
+        setAddModal(true);
+        setInputDetailAddress(false);
+        setDaumPopup(false);
+    }
+    const daumPopupTrue = () => {
+        setDaumPopup(true);
+    }
 
 
 
@@ -1238,6 +1270,8 @@ const Map = () => {
         setAddCategory1('');
         setAddCategory2('');
         setAddCategory3('');
+        setName('');
+        setContent('');
 
     }
     const handleImageChange = (e) => {
@@ -1506,11 +1540,11 @@ const Map = () => {
 
                         </div>
                         <p style={{ marginLeft: "-350px", marginTop: "30px" }}>등록할 장소의 이름</p>
-                        <input className='map-add-name' onChange={handleNameChange} type="text" name="map-add-name" style={{ paddingLeft: "10px", marginTop: "10px", width: "470px", height: "35px" }} />
+                        <input className='map-add-name' onChange={handleNameChange} type="text" name="map-add-name" value={name} style={{ paddingLeft: "10px", marginTop: "10px", width: "470px", height: "35px" }} />
                         <p style={{ marginLeft: "-195px", marginTop: "10px", display: "flex", alignItems: "center" }}>위치
                             <p style={{ fontSize: "12px", marginLeft: "5px" }}>(정확한 위치를 입력하려면 화살표를 눌러 주세요)</p></p>
                         <input className='map-add-loca' onChange={handleLocaChange} type="text" name="map-add-loca" readOnly value={detailAddress} style={{ paddingLeft: "10px", width: "470px", height: "35px", marginTop: "10px" }} />
-                        <div className='map-location-arrow'>&gt;</div>
+                        <div className='map-location-arrow' onClick={popupDetailAddress}>&gt;</div>
                         <p style={{ marginLeft: "-270px", marginTop: "10px", display: "flex", alignItems: "center" }}>관련 SDGs
                             <p style={{ fontSize: "12px", marginLeft: "5px" }}>(1~3개를 선택해 주세요)</p></p>
                         <div className='map-add-cate-option'>
@@ -1520,7 +1554,7 @@ const Map = () => {
                         </div>
                         <p style={{ marginLeft: "-250px", marginTop: "20px", display: "flex", alignItems: "center" }}>내용
                             <p style={{ fontSize: "12px", marginLeft: "5px" }}>(등록하고 싶은 이유 등을 적어 주세요.)</p></p>
-                        <textarea className='map-add-content' onChange={handleContentChange} type="text" name="map-add-content" style={{ paddingLeft: "10px", width: "470px", height: "90px", marginTop: "10px", paddingTop: "10px" }} />
+                        <textarea className='map-add-content' onChange={handleContentChange} type="text" name="map-add-content" value={content} style={{ paddingLeft: "10px", width: "470px", height: "90px", marginTop: "10px", paddingTop: "10px" }} />
                         <div style={{
                             display: "flex", width: "300px", height: "25px", position: "absolute"
                             , marginTop: "570px", marginLeft: "-180px"
@@ -1622,6 +1656,29 @@ const Map = () => {
                     <img src={`http://182.209.228.24:8484/uploads/${[clickedMarker_img[zoomImg]]}`} style={{ width: "500px" }} />
                 </div>
 
+            )}
+            {inputDetailAddress && (
+                <div className='map-input-detail-address'>
+                    <div className='map-input-detail-address-arrow' onClick={closeDetailAddress}>&#60;</div>
+                    <h1>위치</h1>
+                    <div style={{ display: "flex" }}>
+                        <p style={{ cursor: "pointer", marginRight: "50px", fontSize: "18px", fontWeight: "bold", borderBottom: "2px solid black" }}>주소 검색</p>
+                        <p style={{ cursor: "pointer" }}>지도에서 선택</p>
+                    </div>
+                    <input className='map-input-detail-address-inputbox' type="text" placeholder='예) 경기 파주시 시청로 50' onClick={daumPopupTrue} readOnly value={detailAddress} />
+                    <p className='map-input-detail-address-p' style={{ marginBottom: "-15px" }}>도로명이나 지역명을 이용해서 검색해 보세요.</p>
+                    <p className='map-input-detail-address-p' style={{ marginBottom: "10px" }}>건물번호, 번지를 입력하시면 정확하게 검색됩니다.</p>
+
+
+                </div>
+            )}
+            {daumPopup && (
+                <div className='map-daumpopup'>
+                    <DaumPostcode
+                        autoClose
+                        onComplete={handleDaumComplete}
+                    />
+                </div>
             )}
 
 
