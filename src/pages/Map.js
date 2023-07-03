@@ -100,6 +100,11 @@ const Map = () => {
     const [markerData, setMarkerData] = useState([]);
     const [markers, setMarkers] = useState([]);
 
+    //마커 마우스 오버 관련 useState
+    const [infoWindowData, setInfoWindowData] = useState(null);
+    const [infoWindowOpen, setInfoWindowOpen] = useState(true);
+    const [markerPosition, setMarkerPosition] = useState('');
+
     const [postMarkers, setPostMarkers] = useState([]);
     const [deletedMarker, setDeletedMarker] = useState(false);
     const [deletedAllMarker, setDeletedAllMarker] = useState(false);
@@ -147,6 +152,13 @@ const Map = () => {
         setClickedMarker_poster(e);
     }
 
+
+    //마커 마우스 오버 관련 함수, 추후 함수 파트에 옮기기
+
+
+
+
+
     useEffect(() => {
 
 
@@ -185,13 +197,6 @@ const Map = () => {
 
 
 
-
-
-
-
-
-
-
         //지도 생성
         const container = document.getElementById('map');
         const options = {
@@ -225,6 +230,8 @@ const Map = () => {
         const geocoder = new kakao.maps.services.Geocoder();
 
         kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
+
+
             const latlng = mouseEvent.latLng;
             setCenterX(latlng.getLat());
             setCenterY(latlng.getLng());
@@ -249,7 +256,6 @@ const Map = () => {
                     if (result[0].road_address && result[0].road_address.address_name) {
                         setDetailAddress(result[0].road_address.address_name)
                         setLoca(result[0].road_address.address_name);
-                        console.log('이상하다')
                     }
 
                 }
@@ -261,6 +267,15 @@ const Map = () => {
                 geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
             }
 
+
+            // //마우스 오버 이벤트
+            // kakao.maps.event.addListener(markers, 'mouseover', function () {
+            //     console.log('펑리수')
+            //     infowindow.open(map, markers);
+            // })
+            // kakao.maps.event.addListener(markers, 'mouseout', function () {
+            //     infowindow.close();
+            // })
 
 
         })
@@ -300,8 +315,6 @@ const Map = () => {
         }
     }
 
-
-
     useEffect(() => {
         const handleEffect = async () => {
             await createMarkers();
@@ -312,12 +325,6 @@ const Map = () => {
     }, [category])
 
     useEffect(() => {
-        // const container = document.getElementById('map');
-        // const options = {
-        //     center: new kakao.maps.LatLng(37.75907204876572, 126.7808987771656),
-        //     level: 3
-        // };
-        // const map = new kakao.maps.Map(container, options);
         const map = mapRef.current;
 
         for (let i = 0; i < markers.length; i++) {
@@ -326,97 +333,6 @@ const Map = () => {
         for (let i = 0; i < postMarkers.length; i++) {
             postMarkers[i].setMap(null);
         }
-
-
-        // //클릭해서 마커 찍기 + 마커 이미지 커스텀
-        // const clickImageSrc = `${process.env.PUBLIC_URL}/marker_cursor.png`,
-        //     clickImageSize = new kakao.maps.Size(50, 60),
-        //     clickImageOption = { offset: new kakao.maps.Point(25, 50) }; //수치 조정으로 클릭 시 마커 위치 정밀 조정
-        // const markerImage = new kakao.maps.MarkerImage(clickImageSrc, clickImageSize, clickImageOption);
-
-        // const clickMarker = new kakao.maps.Marker({
-        //     // 시작하자마자 가운데에 마커 찍기
-        //     // position: map.getCenter(),
-
-        //     image: markerImage
-        // });
-        // // clickMarker.setMap(map);
-
-
-        // const geocoder = new kakao.maps.services.Geocoder();
-
-        // kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
-        //     const latlng = mouseEvent.latLng;
-        //     setCenterX(latlng.getLat());
-        //     setCenterY(latlng.getLng());
-        //     //상세 주소 가져오기
-        //     searchDetailAddrFromCoords(mouseEvent.latLng, function (result, status) {
-        //         if (status === kakao.maps.services.Status.OK) {
-        //             // var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
-        //             // detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
-
-        //             // var content = '<div class="bAddr">' +
-        //             //     '<span class="title">법정동 주소정보</span>' +
-        //             //     detailAddr +
-        //             //     '</div>';
-
-        //             clickMarker.setPosition(latlng);
-        //             console.log('위도 :', latlng.getLat(), '경도 :', latlng.getLng());
-
-
-        //             // infowindow.setContent(content);
-        //             // infowindow.open(map, marker);
-        //             console.log('주소 : ', result[0].road_address)
-        //             if (result[0].road_address && result[0].road_address.address_name) {
-        //                 setDetailAddress(result[0].road_address.address_name)
-        //                 setLoca(result[0].road_address.address_name);
-        //                 console.log('진짜 이상하다');
-        //             }
-
-        //         }
-        //     })
-        //     // clickMarker.setMap(map);
-
-        //     function searchDetailAddrFromCoords(coords, callback) {
-        //         // 좌표로 법정동 상세 주소 정보를 요청합니다
-        //         geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
-        //     }
-
-
-
-        // })
-
-
-        // //latlng.getLat() 위도 확인
-        // //latlng.getLng() 경도 확인
-
-        // //마커 찍은 데 또 찍으면 없애기
-        // kakao.maps.event.addListener(clickMarker, 'click', function (mouseEvent) {
-        //     clickMarker.setMap(null);
-        // })
-
-
-        // mapRef.current = map;
-
-
-
-
-        // //커서 변경 관련
-        // const changebackCursorESC = (e) => {
-        //     if (e.key === 'Escape') {
-        //         map.setCursor('move');
-        //         setMarkerCursor(false);
-        //     }
-        // }
-
-        // document.addEventListener('keydown', changebackCursorESC);
-
-
-
-
-
-
-
 
     }, [markers])
 
@@ -461,8 +377,8 @@ const Map = () => {
 
             kakao.maps.event.addListener(marker, 'click', function () {
                 //마커 클릭 시 장소명이 인포윈도우에 표출됨
-                infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
-                infowindow.open(map, marker);
+                // infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
+                // infowindow.open(map, marker);
             })
         }
         ps.keywordSearch(searchLoca, placesSearchCB);
@@ -811,6 +727,35 @@ const Map = () => {
                     })
                 })(marker);
 
+
+                // <div>
+                //     <h3>{markerData[i].title}</h3>
+                //     {markerData[i].category1 != 'undefined' && (<img style={{width:"10px"}} src={`${process.env.PUBLIC_URL}/a${markerData[i].category1}.png`} alt={`Category ${markerData[i].category1}`} />)}
+                //     {markerData[i].category2 != 'undefined' && (<img src={`${process.env.PUBLIC_URL}/a${markerData[i].category2}.png`} alt={`Category ${markerData[i].category2}`} />)}
+                //     {markerData[i].category3 != 'undefined' && (<img src={`${process.env.PUBLIC_URL}/a${markerData[i].category3}.png`} alt={`Category ${markerData[i].category3}`} />)}
+
+                // </div>
+
+
+                //마우스 오버 이벤트 관련
+                (function (marker) {
+                    kakao.maps.event.addListener(marker, 'mouseover', function () {
+                        infowindow.setContent(`
+  <div class="map-mouseover-info-div">
+    <h3>${markerData[i].title}</h3>
+    ${markerData[i].category1 !== 'undefined' ? `<img src="${process.env.PUBLIC_URL}/a${markerData[i].category1}.png" alt="Category ${markerData[i].category1}" />` : ''}
+    ${markerData[i].category2 !== 'undefined' ? `<img src="${process.env.PUBLIC_URL}/a${markerData[i].category2}.png" alt="Category ${markerData[i].category2}" />` : ''}
+    ${markerData[i].category3 !== 'undefined' ? `<img src="${process.env.PUBLIC_URL}/a${markerData[i].category3}.png" alt="Category ${markerData[i].category3}" />` : ''}
+  </div>
+`);
+                        infowindow.open(map, marker);
+                    });
+
+                    kakao.maps.event.addListener(marker, 'mouseout', function () {
+                        infowindow.close();
+                    });
+                })(marker);
+
             }
 
             console.log('마커스 배열 정보 : ', markers)
@@ -867,6 +812,19 @@ const Map = () => {
                                 }
                             }
                         })
+                    })(marker);
+
+
+                    //마우스 오버 이벤트 관련
+                    (function (marker) {
+                        kakao.maps.event.addListener(marker, 'mouseover', function () {
+                            console.log('펑리수');
+                            infowindow.open(map, marker);
+                        });
+
+                        kakao.maps.event.addListener(marker, 'mouseout', function () {
+                            infowindow.close();
+                        });
                     })(marker);
                 }
             }
@@ -1447,7 +1405,7 @@ const Map = () => {
                                     onMouseEnter={() => handleMouseEnter(index)}
                                     onMouseLeave={handleMouseLeave}
                                     onClick={() => handleCategoryClick(index + 1)}>
-                                    <img src={`${process.env.PUBLIC_URL}/${index + 1}.png`} alt={`Category ${index + 1}`} />
+                                    <img src={`${process.env.PUBLIC_URL}/a${index + 1}.png`} alt={`Category ${index + 1}`} />
                                     <div className='map-modal1-index'>{hoveredIndex === index && <p>{modal2_line[index]}</p>}</div>
                                 </li>
                             </React.Fragment>
@@ -1680,6 +1638,9 @@ const Map = () => {
                     />
                 </div>
             )}
+
+
+
 
 
 

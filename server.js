@@ -1,3 +1,4 @@
+//모듈
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -9,6 +10,10 @@ const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');
 
+//미들웨어 함수
+const checkAdmin = require('./src/middleware/checkAdmin');
+
+
 const app = express();
 
 mongoose.Promise = global.Promise;
@@ -16,6 +21,7 @@ const User = require('./models/User');
 const Post = require('./models/Post');
 const Marker = require('./models/Marker');
 const Admin = require('./models/Admin');
+const Email = require('./models/Email');
 
 
 //서버 실행
@@ -121,7 +127,6 @@ app.get('/posts/:id', async (req, res) => {
 app.get('/is-notice', async (req, res) => {
     const noticePosts = await getNotice()
     res.json(noticePosts);
-    console.log('noticePosts? : ', noticePosts);
 })
 
 app.post('/signup', (req, res) => {
@@ -298,5 +303,124 @@ app.get('/loadmarker', async (req, res) => {
     } catch (err) {
         console.log(err);
         res.status(500).send(err);
+    }
+})
+
+app.post('/admin-login', async (req, res) => {
+
+    try {
+        const admin = await Admin.findOne({ email: req.body.email })
+
+        if (!admin) {
+            return res.status(401).json({ message: 'Auth failed' })
+        }
+
+
+        if (admin.password !== req.body.password) {
+            return res.status(401).json({ message: 'Auth failed' });
+        }
+
+
+        const token = jwt.sign(
+            {
+                email: admin.email,
+                password: admin.password,
+                sndPassword: admin.sndPassword,
+            },
+            'secret',
+            {
+                expiresIn: '10h'
+            }
+        );
+        res.status(200).json({ token });
+    } catch (err) {
+        res.status(500).json({ message: 'Internal server error' });
+    }
+
+})
+app.post('/admin-change-password', async (req, res) => {
+    try {
+        const admin = await Admin.findOne({ email: req.body.tkEmail })
+
+        if (!admin) {
+            return res.status(401).json({ message: 'Auth failed' })
+        }
+        if (admin.password) {
+            admin.password = req.body.changePW;
+            await admin.save();
+            return res.status(200).json({ message: 'change success' })
+        }
+    } catch (err) {
+        console.log('error : ', err)
+        return res.status(500).json({ message: 'Internal server error' })
+    }
+})
+app.post('/admin-change-2ndpassword', async (req, res) => {
+    try {
+        const admin = await Admin.findOne({ email: req.body.tkEmail })
+
+        if (!admin) {
+            return res.status(401).json({ message: 'Auth failed' })
+        }
+        if (admin.sndPassword) {
+            admin.sndPassword = req.body.changePW;
+            await admin.save();
+            return res.status(200).json({ message: 'change success' })
+        }
+    } catch (err) {
+        console.log('error : ', err)
+        return res.status(500).json({ message: 'Internal server error' })
+    }
+})
+//운영자 목록 조회 API
+app.get('/admin-getManager', async (req, res) => {
+    try {
+        const managers = await User.find({ manager: 1 });
+        res.json(managers);
+    } catch (err) {
+        console.log('Error fetching managers', err)
+        res.status(500).json({ message: "Error fetching managers" });
+    }
+})
+//운영자 추가 API
+app.post('/admin-addManager', async (req, res) => {
+    const { managerEmail, setManagerDate } = req.body;
+
+    try {
+        const addManager = await User.findOneAndUpdate(
+            { email: managerEmail },
+            { manager: 1, setManagerDate: new Date() },
+            { new: true }
+        )
+
+        if (!addManager) {
+            res.status(404).json({ error: 'User not found' })
+        } else {
+            res.json({ success: true, manager: addManager })
+        }
+    } catch (err) {
+        console.log('Error add manager', err);
+        res.status(500).json({ error: 'Error add manager' });
+    }
+})
+//운영자 해제 API
+app.post('/admin-delManager/:managerEmail', async (req, res) => {
+    const { managerEmail } = req.body;
+
+    try {
+        const delManager = await User.findOneAndUpdate(
+            { email: managerEmail },
+            { manager: 0 },
+            { new: true }
+        );
+
+        if (!delManager) {
+            res.status(404).json({ error: 'User not found or not an admin' });
+        } else {
+            res.json({ success: true });
+        }
+    } catch (err) {
+        console.log('Error delete manager', err);
+        res.status(500).json({ error: 'error delete manager' })
     }
 })

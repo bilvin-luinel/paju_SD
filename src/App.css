@@ -991,6 +991,7 @@ a:visited {
     z-index: 3;
     cursor: pointer;
 }
+
 .map-add-imgbtn1 {
     position: absolute;
     width: 225px;
@@ -1005,18 +1006,23 @@ a:visited {
     justify-content: center;
     align-items: center;
 }
-.map-add-imgbtn1 > h3 {
+
+.map-add-imgbtn1>h3 {
     font-weight: normal;
 }
-.map-add-imgbtn2 > h3 {
+
+.map-add-imgbtn2>h3 {
     font-weight: normal;
 }
-.map-add-imgbtn3 > h3 {
+
+.map-add-imgbtn3>h3 {
     font-weight: normal;
 }
-.map-add-imgbtn4 > h3 {
+
+.map-add-imgbtn4>h3 {
     font-weight: normal;
 }
+
 .map-add-imgbtn2 {
     position: absolute;
     width: 225px;
@@ -1031,6 +1037,7 @@ a:visited {
     justify-content: center;
     align-items: center;
 }
+
 .map-add-imgbtn3 {
     position: absolute;
     width: 225px;
@@ -1045,6 +1052,7 @@ a:visited {
     justify-content: center;
     align-items: center;
 }
+
 .map-add-imgbtn4 {
     position: absolute;
     width: 225px;
@@ -1059,6 +1067,7 @@ a:visited {
     justify-content: center;
     align-items: center;
 }
+
 .map-add-imgbtn-1 {
     position: absolute;
     width: 480px;
@@ -1293,12 +1302,14 @@ a:visited {
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
 .map-zoomImg {
     position: fixed;
     z-index: 2;
     margin-left: 360px;
     margin-top: 20vh;
 }
+
 .map-location-arrow {
     color: #fd2b2a;
     font-weight: bold;
@@ -1330,6 +1341,7 @@ a:visited {
     place-items: center;
     box-shadow: 3px 3px 5px gray;
 }
+
 .map-input-detail-address-arrow {
     position: absolute;
     margin-left: -430px;
@@ -1338,23 +1350,28 @@ a:visited {
     font-size: 20px;
     cursor: pointer;
 }
-.map-input-detail-address > h1 {
+
+.map-input-detail-address>h1 {
     font-size: 25px;
     /* margin-top: -10px; */
 }
+
 .map-input-detail-address-inputbox {
     width: 380px;
     height: 45px;
     /* border-radius: 0px; */
 }
+
 .map-input-detail-address-inputbox::placeholder {
     padding-left: 10px;
     font-size: 15px;
 }
+
 .map-input-detail-address-p {
     color: #8b8989;
     font-size: 14px;
 }
+
 .map-daumpopup {
     z-index: 3;
     width: 500px;
@@ -1371,17 +1388,170 @@ a:visited {
     box-shadow: 3px 3px 5px gray;
 }
 
-
-
-
-.t-session-wrap {
-    width: 800px;
-    height: 300px;
-    text-align: center;
-    font-size: 22px;
-    font-weight: bold;
+.adminpage-top {
+    width: 100%;
+    height: 100px;
+    position: absolute;
+    border-bottom: 5px solid #0d5d95;
+    display: flex;
     justify-content: center;
+    align-items: center;
+    color: #0d5d95;
+    font-size: 27px;
+    font-weight: bold;
+    top: 0;
 }
+
+.adminpage-goToHome {
+    position: absolute;
+    cursor: pointer;
+}
+
+.adminpage-goToHome>img {
+    width: 85px;
+}
+
+.adminpage-logout {
+    position: absolute;
+    /* float: right; */
+    right: 0;
+    background-color: white;
+    width: 100px;
+    height: 45px;
+    border-radius: 5px;
+    border: 1px solid black;
+    margin-top: -140px;
+    cursor: pointer;
+}
+
+.adminpage-logininput {
+    width: 330px;
+    height: 30px;
+    font-size: 18px;
+    border-radius: 5px;
+    border: 1px solid black;
+    text-indent: 5px;
+}
+
+.adminpage-logininput:focus {
+    outline: none;
+}
+
+.adminpage-login {
+    position: absolute;
+    margin-top: 80px;
+    width: 110px;
+    height: 35px;
+    margin-left: -55px;
+    background-color: #454850;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.adminpage-showpassword {
+    position: absolute;
+    margin-top: 51px;
+    margin-left: -37px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.adminpage-showpassword>img {
+    width: 30px;
+}
+
+.adminpage-afterlogin {
+    width: 1000px;
+    position: absolute;
+    margin: 0 auto;
+    margin-top: 100px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.adminpage-afterlogin>p {
+    margin-left: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 18px;
+    background-image: linear-gradient(to top, #dbe8fb 50%, transparent 50%);
+    /* background-size: 100% 100%; */
+    background-position: 0 0;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.adminpage-2ndlogin {
+    position: absolute;
+    margin-top: 80px;
+    width: 110px;
+    height: 35px;
+    margin-left: -55px;
+    background-color: #454850;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+.adminpage-p1 {
+    margin: 0 auto;
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 50px;
+    width: 200px;
+    background-image: linear-gradient(to top, #dbe8fb 50%, transparent 50%);
+    /* background-size: 100% 100%; */
+    /* background-position: 0 0; */
+    border-radius: 5px;
+}
+.adminpage-delmanager-btn {
+    width: 70px;
+    height: 27px;
+    border-radius: 5px;
+    border: 1px solid black;
+    background-color: white;
+}
+.adminpage-addmanager-input {
+    width: 250px;
+    height: 30px;
+}
+.adminpage-addmanager-input::placeholder {
+    text-align: center;
+}
+.adminpage-addmanager-input:focus {
+    outline: none;
+}
+.map-mouseover-info-div {
+    display: inline-flex;
+    align-items: center;
+    height: 40px;
+}
+
+.map-mouseover-info-div > h3 {
+    margin-left: 10px;
+    margin-right: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.map-mouseover-info-div > img {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+
+
+
 
 
 /* @media (max-width: 768px) {

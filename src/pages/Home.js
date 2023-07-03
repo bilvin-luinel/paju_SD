@@ -13,10 +13,14 @@ const Home = () => {
     const goToMap = () => {
         navigate('/map');
     }
+    const handleOpenPopup = () => {
+        console.log('찍힘2')
+    }
 
     return (
         <div>
             <TopBar />
+            {/* <button onClick={handleOpenPopup} style={{width: "150px", height:"50px"}}>팝업 열기</button> */}
             <div className='super-wrap'>
                 <img className='mobile' src={`${process.env.PUBLIC_URL}/mobile.jpg`} />
                 <div className='wrap'>
