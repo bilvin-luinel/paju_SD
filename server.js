@@ -387,6 +387,14 @@ app.post('/admin-addManager', async (req, res) => {
     const { managerEmail, setManagerDate } = req.body;
 
     try {
+        const addManager1 = await User.findOne(
+            { email: managerEmail, manager: 1 }
+        )
+        if (addManager1) {
+            res.status(444).json({ error: 'already manager'})
+            return
+        }
+
         const addManager = await User.findOneAndUpdate(
             { email: managerEmail },
             { manager: 1, setManagerDate: new Date() },

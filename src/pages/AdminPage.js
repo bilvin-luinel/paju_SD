@@ -24,6 +24,10 @@ const AdminPage = () => {
     const [managers, setManagers] = useState([]);
     const [newManagerEmail, setNewManagerEmail] = useState('');
     const [thereIsNoManager, setThereIsNoManager] = useState(false);
+    const [alreadyManager, setAlreadyManager] = useState(false);
+
+    //이메일 설정 관련 useState
+    
 
 
     //useEffect
@@ -117,6 +121,8 @@ const AdminPage = () => {
 
         setNewManagerEmail('');
         setThereIsNoManager(false);
+        setAlreadyManager(false);
+
 
         localStorage.removeItem('token');
     }
@@ -136,6 +142,7 @@ const AdminPage = () => {
 
         setNewManagerEmail('');
         setThereIsNoManager(false);
+        setAlreadyManager(false);
     }
     const goToSetManager = () => {
         setTemp('setManager')
@@ -307,11 +314,18 @@ const AdminPage = () => {
                 setNewManagerEmail('');
                 fetchManagers();
                 setThereIsNoManager(false);
-            } else if (response.status === 404) {
-                setThereIsNoManager(true);
+                setAlreadyManager(false);
             } else {
                 const data = await response.json();
-                console.log('error adding manager', data.error);
+                if (response.status === 404) {
+                    setThereIsNoManager(true);
+                    setAlreadyManager(false)
+                } else if (response.status === 444) {
+                    setAlreadyManager(true);
+                    setThereIsNoManager(false);
+                } else {
+                    console.log('error adding manager', data.error);
+                }
             }
         } catch (err) {
             console.log('error adding manager', err)
@@ -528,6 +542,36 @@ const AdminPage = () => {
                     </table>
                     <div style={{ position: "absolute", textAlign: "center", left: "50%", transform: "translateX(-50%)", marginTop: "50px" }}>
                         {thereIsNoManager && (<p style={{ color: "red", textAlign: "center" }}>해당 이메일에 일치되는 회원을 찾을 수 없습니다.</p>)}
+                        {alreadyManager && (<p style={{ color: "red", textAlign: "center" }}>이미 운영자인 회원입니다.</p>)}
+                    </div>
+
+
+                </div>
+            )}
+
+
+
+
+
+            {/* 이메일 설정 프론트 */}
+            {isLogin == 'setEmail' && (
+                <div style={{ width: "1000px", margin: "0 auto", textAlign: "center", position: "relative", border: "1px solid transparent" }}>
+                    <button className='adminpage-logout' onClick={handleCancle}>돌아가기</button>
+                    <p className='adminpage-p1' style={{ marginBottom: "10px" }}>이메일 설정</p>
+                    <p style={{ color: "red", textAlign: "center" }}>실제 사용하고 있는 이메일로 설정해야 합니다.</p>
+
+                    
+                    
+
+
+
+
+
+
+
+                    <div style={{ position: "absolute", textAlign: "center", left: "50%", transform: "translateX(-50%)", marginTop: "50px" }}>
+                        {thereIsNoManager && (<p style={{ color: "red", textAlign: "center" }}>해당 이메일에 일치되는 회원을 찾을 수 없습니다.</p>)}
+                        {alreadyManager && (<p style={{ color: "red", textAlign: "center" }}>이미 운영자인 회원입니다.</p>)}
                     </div>
 
 
